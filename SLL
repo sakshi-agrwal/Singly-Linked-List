@@ -1,0 +1,113 @@
+class Node:
+    def __init__ (self, data):
+        self.data = data
+        self.next = None
+    
+class Linkedlist:
+    def __init__ (self):
+        self.head = None
+        
+    def print_list(self):
+        curr_node = self.head
+        while curr_node:
+            print(curr_node.data)
+            curr_node = curr_node.next
+
+    def prepend(self,data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+
+    def append_after_node(self, previous_node,data):
+        if not previous_node:
+            print('Previous node is not in the list')
+            return
+        new_node = Node(data)
+        new_node.next = previous_node.next
+        previous_node.next = new_node
+
+
+    def append(self, data):
+        new_node = Node(data)
+    
+        if self.head is None:
+            self.head = new_node
+            return
+    
+        last_node = self.head 
+        while last_node.next:
+            last_node = last_node.next   #Traversing the list
+        last_node.next = new_node    #Forming a link
+
+    def delete_node(self,key):
+        curr_node = self.head
+
+        if curr_node and curr_node.data == key: #this code deletes the starting node
+            self.head = curr_node.next
+            curr_node = None
+            return
+        
+        prev = None
+        while curr_node and curr_node.data != key:
+            prev = curr_node
+            curr_node = curr_node.next #Traversing the list till we find the node we want to delete
+
+        if curr_node is None:
+            return
+        
+        prev.next = curr_node.next
+        curr_node = None
+    
+    def append_at_pos(self, pos,data):
+        new_node = Node(data)
+
+        if pos == 0:
+            new_node.next = self.head
+            self.head = new_node
+            return
+        
+        prev = self.head
+        count = 1
+        while prev.next :
+            if count == pos:
+                new_node.next = prev.next
+                prev.next = new_node
+                break
+            prev = prev.next
+            count = count + 1
+    
+    def delete_node_at_pos(self,pos):
+        curr_node = self.head
+        
+        if pos == 0:
+            self.head = curr_node.next
+            curr_node = None
+            return
+        
+        prev = None
+        count = 0
+        while curr_node and count != pos:
+            count = count + 1
+            prev = curr_node
+            curr_node = curr_node.next
+
+        
+        if curr_node is None:
+            return
+        
+        prev.next = curr_node.next
+        curr_node = None 
+        
+        
+
+
+llist = Linkedlist()
+llist.append('A')
+llist.append('B')
+llist.append('C')
+llist.append('D')
+llist.append_at_pos(3,'E')
+llist.delete_node('B')
+llist.delete_node_at_pos(3)
+llist.append_after_node(llist.head.next,'E')
+llist.print_list()
